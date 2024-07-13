@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  client:
+    build: ./client
+    ports:
+      - "8080:80"
+    networks:
+      - my-network
+  server:
+    build: ./server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    networks:
+      - my-network
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: Lib
+    ports:
+      - "3309:3306"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
